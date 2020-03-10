@@ -1,0 +1,36 @@
+
+docker build -f Dockerfile.dev .      => For file not named Dockerfile  
+docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app bf6e2ed8e072
+
+RUN Tests
+Method 1:
+    docker ps
+    docker exec -it bf6e2ed8e072 npm run test
+
+Method 2: (video 19 of building a production grade workflow)
+Add new service to docker-compose
+
+stdin is not binded but what if we use docker attach [container_id]
+This will not work as docker attach command will attach to proccess ID 1
+When we use ps inside a running container there are multiple proccess running 
+like 
+PID | name
+1   | npm
+20  | react-scripts <- this has the interactivity and not npm (PID 1)
+
+Video 20
+Need for ngnix
+In dev env we have a dev server running that serves the index.html and main.js files to the web-browser
+It has lot of processing power to detect changes, build bundle and serve it. This type of processing is not
+required on production env as the code does not change frequently. 
+For this reason we use ngnix which is a popular webserver
+
+Production Docker files
+use node:alpine => copy package.json => npm install => run npm run build => start ngnix
+                                        (180mb size)                        (where is ngnix installed ?)
+
+MULTI-STEP Docker Builds
+Build Phase : node => copy package.json => Install => npm run build
+Run Phase   : ngnix => copy result of npm run build => start ngnix
+
+https://hub.docker.com/_/nginx  (IMP - COPY static-html-directory /usr/share/nginx/html)
