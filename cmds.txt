@@ -34,3 +34,8 @@ Build Phase : node => copy package.json => Install => npm run build
 Run Phase   : ngnix => copy result of npm run build => start ngnix
 
 https://hub.docker.com/_/nginx  (IMP - COPY static-html-directory /usr/share/nginx/html)
+
+
+
+AWS Beanstalk Key - 034cj8k7JscUv0B7TIo1wj8Ceqoyr6dL9Vg+ql3Q
+key ID - AKIAQ7FE4F235FKOS76Q
